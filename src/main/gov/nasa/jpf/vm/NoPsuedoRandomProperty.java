@@ -31,6 +31,7 @@ import java.io.StringWriter;
 public class NoPsuedoRandomProperty extends GenericProperty {
 
   public NoPsuedoRandomProperty (Config config) {
+      super();
   }
 
   @Override
@@ -51,8 +52,9 @@ public class NoPsuedoRandomProperty extends GenericProperty {
 
   @Override
   public boolean check (Search search, VM vm) {
-      String n = vm.getLastTransition().getThreadInfo().getLastInvokedStackFrame().getMethodName();
-      return !n.equals("random");
+      MethodInfo mi = vm.getLastTransition().getThreadInfo().getLastInvokedStackFrame().getMethodInfo();
+      return !mi.getClassName().equals("java.util.Random") && !(mi.getClassName().equals("java.lang.Math") && mi.getName().equals("random");
+
   }
 
 }
